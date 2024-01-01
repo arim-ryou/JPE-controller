@@ -22,7 +22,7 @@ COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 
 - 입력한 command에 대한 respond 값은 ">>> respond 값"으로 발생합니다.
 
 ### Motion Control 창
-<img src="image/JPE Controller_2.PNG">
+<img src="image/JPE Controller_2.png">
 CADM 동작를 제어하는 창
 
 #### parameter 설명
@@ -43,4 +43,4 @@ CADM 동작를 제어하는 창
 
 
 ### 구동 이미지
-<img src="image/JPE Controller 구동 확인.PNG">
+<img src="image/JPE Controller 구동 확인.png">
