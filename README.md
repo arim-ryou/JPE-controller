@@ -14,7 +14,7 @@ Interface
 ------------------------------------------------------------------
 ### Serial Communication 창
 
-<img src="image/JPE Controller_1.PNG">
+<img src="image/JPE Controller_1.png">
 COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 수  있습니다. 
 
 - commad 창에 원하는 command 입력한 후 enter 버튼 혹은 enterkey을 누르면 해당 command가 설정한 port에 입력됩니다.
