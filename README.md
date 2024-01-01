@@ -23,7 +23,7 @@ COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 
 
 ### Motion Control 창
 <img src="image/JPE Controller_2.png">
-CADM 동작를 제어하는 창
+CADM 동작을 간단한 버튼을 통해 제어할 수 있습니다.
 
 #### parameter 설명
 |Parameter|설명|
