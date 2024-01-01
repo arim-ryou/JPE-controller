@@ -33,7 +33,7 @@ motion_con_frame = tk.Frame(window)
 notebook.add(motion_con_frame, text="Motion Control")
 
 ## 프리셋 값
-stage = "CLA2602"
+stage = "CLA2601"
 optCom = tk.StringVar()
 optCom.set('1')
 optBr = tk.StringVar()
