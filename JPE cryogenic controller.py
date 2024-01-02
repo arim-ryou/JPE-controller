@@ -22,6 +22,22 @@ window.title("JPE cryogenic controller")
 window.geometry("900x600+100+100")
 window.resizable(False, False)
 
+teg_1 = "#E9EDC9"
+teg_2 = "#CCD5AE"
+bg_color_1 = "#FAEDCD"
+bg_color_2 = "#FEFAE0"
+button_color = "#D4A373"
+button_color_2 ="#FAEDCD"
+style = ttk.Style()
+style.theme_create( "dummy", parent="alt", settings={
+        "TNotebook": {"configure": {"tabmargins": [2, 5, 2, 0] } },
+        "TNotebook.Tab": {
+            "configure": {"padding": [5, 1], "background": teg_1 },
+            "map":       {"background": [("selected", teg_2)],
+                          "expand": [("selected", [1, 1, 1, 0])] } } } )
+
+style.theme_use("dummy")
+
 notebook = ttk.Notebook(window, width=900, height= 570)
 notebook.pack()
 
@@ -144,16 +160,16 @@ def command_stop(address):
 ###################################-- Serial Communication Frame 구성 --##########################################
 
 # 설정창 구성 및 기능
-set_up_frame = tk.Frame(serial_com_frame, width= 240, height=600, relief= "solid", bg= "gray80")
+set_up_frame = tk.Frame(serial_com_frame, width= 240, height=600, relief= "solid", bg= bg_color_1)
 set_up_frame.pack(side = 'left')
 
 ## 설정 프레임 구성
-label_port_1 = tk.Label(master = set_up_frame, text="COM port", font = Bold_font, bg= "gray80")
+label_port_1 = tk.Label(master = set_up_frame, text="COM port", font = Bold_font, bg= bg_color_1)
 input_port_1 = tk.Spinbox(master = set_up_frame, from_= 0, to = 100, textvariable= optCom, font=Light_font)
-label_baudrate_1 = tk.Label(master = set_up_frame, text = "Baudrate", font = Bold_font, bg= "gray80")
+label_baudrate_1 = tk.Label(master = set_up_frame, text = "Baudrate", font = Bold_font, bg= bg_color_1)
 input_baudrate_1 = tk.Spinbox(master = set_up_frame, from_= 9600, to = 1000000, textvariable= optBr, font= Light_font)
 
-butTxtRespClear_1 = tk.Button( master = set_up_frame, text="Clear command history", command = txtResp_clear_click_1, font = Bold_font)
+butTxtRespClear_1 = tk.Button( master = set_up_frame, text="Clear command history", command = txtResp_clear_click_1, font = Bold_font, bg=button_color)
 
 label_port_1.place(x= 10, y = 10, width= 100, height=30)
 input_port_1.place( x= 130, y = 10, width=100, height=30)
@@ -163,13 +179,13 @@ input_baudrate_1.place(x = 130, y=50, width=100, height=30)
 butTxtRespClear_1.place(x = 10, y= 535, width=220, height=30)
 
 # 입력 프레임 구성 및 기능
-command_fram_1 = tk.Frame(serial_com_frame, width= 660, height= 600, relief= "solid" )
+command_fram_1 = tk.Frame(serial_com_frame, width= 660, height= 600, relief= "solid", bg= bg_color_2 )
 command_fram_1.pack(side="right") 
         
 ## 입력 프레임 구성
 command_entry = tk.Entry(command_fram_1, font=Light_font)
 command_entry.bind("<Return>", enter)
-enter_button = tk.Button(command_fram_1, text = "Enter" ,overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font)
+enter_button = tk.Button(command_fram_1, text = "Enter" ,overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, bg=button_color_2)
 enter_button.bind("<Button-1>", enter)
 scroll = tk.Scrollbar(command_fram_1, orient='vertical')
 respond_text = tk.Text(command_fram_1, yscrollcommand=scroll.set, font=Light_font)
@@ -185,15 +201,15 @@ scroll.place(x = 630, y = 50, height= 515)
 ###################################### -- Motion control Frame 구성 --#######################################
 
 # port 설정 프레임 구성
-port_frame_1 = tk.Frame(motion_con_frame, width= 160, height=200, relief= "groove", bg= "gray80")
+port_frame_1 = tk.Frame(motion_con_frame, width= 160, height=200, relief= "groove", bg= bg_color_1)
 port_frame_1.place(x=0, y=0) 
 
-label_port_2 = tk.Label(master = port_frame_1, text="COM port", font = Bold_font, bg= "gray80")
+label_port_2 = tk.Label(master = port_frame_1, text="COM port", font = Bold_font, bg= bg_color_1)
 input_port_2 = tk.Spinbox(master = port_frame_1, from_= 0, to = 100, textvariable=optCom, font=Light_font)
-label_baudrate_2 = tk.Label(master = port_frame_1, text = "Baudrate", font = Bold_font, bg= "gray80")
+label_baudrate_2 = tk.Label(master = port_frame_1, text = "Baudrate", font = Bold_font, bg= bg_color_1)
 input_baudrate_2 = tk.Spinbox(master = port_frame_1, from_= 9600, to = 1000000, textvariable=optBr, font= Light_font)
 
-butTxtRespClear_2 = tk.Button( master = port_frame_1, text="Clear command", command = txtResp_clear_click_2, font = Bold_font)
+butTxtRespClear_2 = tk.Button( master = port_frame_1, text="Clear command", command = txtResp_clear_click_2, font = Bold_font, bg=button_color)
 
 label_port_2.place(x=5, y= 5, width= 150, height=30)
 input_port_2.place(x = 5, y = 35, width= 150, height=30)
@@ -202,16 +218,16 @@ input_baudrate_2.place(x=5, y= 110, width= 150, height=30)
 butTxtRespClear_2.place(x= 5, y = 165, width=150, height= 30)
 
 # 환경설정 프레임 구성
-config_frame_1 = tk.Frame(motion_con_frame, width=740, height=40, relief="groove", bg= "gray90", bd=1)
+config_frame_1 = tk.Frame(motion_con_frame, width=740, height=40, relief="groove", bg= bg_color_2, bd=1)
 config_frame_1.place(x=160, y=0)
 
-label_freq_1 = tk.Label(master=config_frame_1, text ="Frequency [Hz]", font= Bold_font, bg= "gray90")
+label_freq_1 = tk.Label(master=config_frame_1, text ="Frequency [Hz]", font= Bold_font, bg= bg_color_2)
 input_freq_1 = tk.Spinbox(master = config_frame_1, from_ = 1, to = 600, textvariable=optFreq, font = Light_font)
-label_temp_1 = tk.Label(master = config_frame_1, text = "Temperature [K]", font= Bold_font, bg= "gray90")
+label_temp_1 = tk.Label(master = config_frame_1, text = "Temperature [K]", font= Bold_font, bg= bg_color_2)
 input_temp_1 = tk.Spinbox(master= config_frame_1,from_ = 0, to = 300, textvariable=optTemp, font = Light_font )
-label_stepSize_1 = tk.Label(master=config_frame_1, text ="Step size [%]", font= Bold_font, bg= "gray90")
+label_stepSize_1 = tk.Label(master=config_frame_1, text ="Step size [%]", font= Bold_font, bg= bg_color_2)
 input_stepSize_1 = tk.Spinbox(master = config_frame_1, from_ = 1, to = 100, textvariable=optRss, font = Light_font)
-label_DriveFact_1 = tk.Label(master = config_frame_1, text= "Drive Factor", font = Bold_font,  bg= "gray90")
+label_DriveFact_1 = tk.Label(master = config_frame_1, text= "Drive Factor", font = Bold_font,  bg= bg_color_2)
 input_DriveFact_1 = tk.Spinbox(master = config_frame_1, from_ = 0.1, to = 3.0, increment = 0.1,textvariable= optDf, font = Light_font)
 
 label_freq_1.place(x=5, y=5, width=120, height= 30)
@@ -232,27 +248,27 @@ class motion_frame():
         self.optSteps = optSteps
 
     def making_address_frame(self, address):
-        Address_frame = tk.Frame(motion_con_frame, width = self.width, height=self.height, relief="groove", bg= "gray90", bd=1)
+        Address_frame = tk.Frame(motion_con_frame, width = self.width, height=self.height, relief="groove", bg= bg_color_2, bd=1)
         Address_frame.place(x = 160 + self.width*(address-1) , y = 40)
 
-        label_addr = tk.Label(master=Address_frame, text ="Address number " + str(address), font= Bold_font, bg= "gray90")
-        check_dir = tk.Checkbutton(master=Address_frame, text= "Positive Direction", variable= self.optDir,font = Bold_font, bg= "gray90")
-        label_steps = tk.Label(master=Address_frame, text ="Steps", font= Bold_font, bg= "gray90")
+        label_addr = tk.Label(master=Address_frame, text ="Address number " + str(address), font= Bold_font, bg= bg_color_2)
+        check_dir = tk.Checkbutton(master=Address_frame, text= "Positive Direction", variable= self.optDir,font = Bold_font, bg= bg_color_2)
+        label_steps = tk.Label(master=Address_frame, text ="Steps", font= Bold_font, bg= bg_color_2)
         input_steps = tk.Spinbox(master = Address_frame, from_ = 0, to = 50000, textvariable=self.optSteps, font = Light_font)
         button_GFS = tk.Button(master = Address_frame, text= "State",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, \
-                               command=partial(Command_state, address))
+                               command=partial(Command_state, address), bg=button_color_2)
         button_mov = tk.Button(master = Address_frame, text= "Move",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, \
-                               command=partial(Command_move, address))
+                               command=partial(Command_move, address), bg=button_color_2)
         button_stop = tk.Button(master = Address_frame, text= "Stop",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, \
-                                command = partial(command_stop, address))
+                                command = partial(command_stop, address), bg=button_color_2)
 
-        label_addr.place(x = 10 , y = 10, height= 30)
-        check_dir.place(x = 10, y = 50 )
-        label_steps.place(x = 10, y = 90, height= 30)
-        input_steps.place(x = 100, y = 90, width = 120, height= 30)
-        button_GFS.place(x = 0, y = 130, width = 82, height = 30)
-        button_mov.place(x = 82, y = 130, width= 82, height= 30)
-        button_stop.place(x = 164, y = 130, width= 82, height= 30)
+        label_addr.place(x = 5 , y = 5, height= 30)
+        check_dir.place(x = 5, y = 40 )
+        label_steps.place(x = 5, y = 75, height= 30)
+        input_steps.place(x = 100, y = 75, width = 120, height= 30)
+        button_GFS.place(x = 5, y = 125, width = 75, height = 30)
+        button_mov.place(x = 85, y = 125, width= 75, height= 30)
+        button_stop.place(x = 165, y = 125, width= 75, height= 30)
 
 address_frame_1 = motion_frame(optDir_1,  optSteps_1)
 address_frame_2 = motion_frame(optDir_2, optSteps_2)
@@ -263,7 +279,7 @@ address_frame_2.making_address_frame(2)
 address_frame_3.making_address_frame(3)
 
 # 입력 프레임 구성 및 기능
-command_fram_2 = tk.Frame(motion_con_frame, width= 900, height= 600, relief= "solid" )
+command_fram_2 = tk.Frame(motion_con_frame, width= 900, height= 600, relief= "solid" , bg=bg_color_2)
 command_fram_2.place(x = 0, y = 200)
 
 ## 입력 프레임 구성
@@ -279,14 +295,14 @@ respond_text_2.place(x= 5, y = 5, width = 870, height= 360)
 ###################################-- XYZ motion control Frame 구성 --##########################################
 # port 프레임 구성
 
-port_frame_2 = tk.Frame(xyz_motion_frame, width= 225, height=200, relief= "solid", bg= "gray80")
+port_frame_2 = tk.Frame(xyz_motion_frame, width= 225, height=200, relief= "solid", bg= bg_color_1)
 port_frame_2.place(x=0, y = 0)
 
-label_port_3 = tk.Label(master = port_frame_2, text="COM port", font = Bold_font, bg= "gray80")
+label_port_3 = tk.Label(master = port_frame_2, text="COM port", font = Bold_font, bg= bg_color_1)
 input_port_3 = tk.Spinbox(master = port_frame_2, from_= 0, to = 100, textvariable = optCom, font=Light_font)
-label_baudrate_3 = tk.Label(master = port_frame_2, text = "Baudrate", font = Bold_font, bg= "gray80")
+label_baudrate_3 = tk.Label(master = port_frame_2, text = "Baudrate", font = Bold_font, bg= bg_color_1)
 input_baudrate_3 = tk.Spinbox(master = port_frame_2, from_= 9600, to = 1000000, textvariable = optBr, font= Light_font)
-butTxtRespClear_3 = tk.Button( master = port_frame_2, text="Clear command history", font = Bold_font)
+butTxtRespClear_3 = tk.Button( master = port_frame_2, text="Clear command history", font = Bold_font, bg=button_color)
 
 label_port_3.place(x=15, y= 16, width= 90, height=30)
 input_port_3.place(x = 120, y = 16, width= 90, height=30)
@@ -295,16 +311,16 @@ input_baudrate_3.place(x= 120, y= 62, width= 90, height=30)
 butTxtRespClear_3.place(x = 10, y= 160, width=205, height=30)
 
 # config 프레임 구성
-config_frame_2 =tk.Frame(xyz_motion_frame, width=225, height=200, relief="groove", bg= "gray90", bd=1)
+config_frame_2 =tk.Frame(xyz_motion_frame, width=225, height=200, relief="groove", bg= bg_color_2, bd=1)
 config_frame_2.place(x=225, y=0)
 
-label_freq_2 = tk.Label(master=config_frame_2, text ="Frequency [Hz]", font= Bold_font, bg= "gray90")
+label_freq_2 = tk.Label(master=config_frame_2, text ="Frequency [Hz]", font= Bold_font, bg= bg_color_2)
 input_freq_2 = tk.Spinbox(master = config_frame_2, from_ = 1, to = 600, textvariable=optFreq, font = Light_font)
-label_temp_2 = tk.Label(master = config_frame_2, text = "Temperature [K]", font= Bold_font, bg= "gray90")
+label_temp_2 = tk.Label(master = config_frame_2, text = "Temperature [K]", font= Bold_font, bg= bg_color_2)
 input_temp_2 = tk.Spinbox(master= config_frame_2,from_ = 0, to = 300, textvariable=optTemp, font = Light_font )
-label_stepSize_2 = tk.Label(master=config_frame_2, text ="Step size [%]", font= Bold_font, bg= "gray90")
+label_stepSize_2 = tk.Label(master=config_frame_2, text ="Step size [%]", font= Bold_font, bg= bg_color_2)
 input_stepSize_2 = tk.Spinbox(master = config_frame_2, from_ = 1, to = 100, textvariable=optRss, font = Light_font)
-label_DriveFact_2 = tk.Label(master = config_frame_2, text= "Drive Factor", font = Bold_font,  bg= "gray90")
+label_DriveFact_2 = tk.Label(master = config_frame_2, text= "Drive Factor", font = Bold_font,  bg= bg_color_2)
 input_DriveFact_2 = tk.Spinbox(master = config_frame_2, from_ = 0.1, to = 3.0, increment = 0.1,textvariable= optDf, font = Light_font)
 
 label_freq_2.place(x= 0, y=16, width=140, height= 30)
@@ -319,14 +335,14 @@ input_DriveFact_2.place(x = 145, y = 154, width= 70, height= 30)
 
 
 # xyz steps 프레임 구성
-xyz_steps_frame = tk.Frame(xyz_motion_frame, width=450, height=200, relief="groove", bg= "gray90", bd=1)
+xyz_steps_frame = tk.Frame(xyz_motion_frame, width=450, height=200, relief="groove", bg= bg_color_2, bd=1)
 xyz_steps_frame.place(x=450, y=0)
 
-label_x_steps = tk.Label(master=xyz_steps_frame, text = "X Steps",  font= Bold_font, bg= "gray90")
+label_x_steps = tk.Label(master=xyz_steps_frame, text = "X Steps",  font= Bold_font, bg= bg_color_2)
 input_x_steps = tk.Entry(master = xyz_steps_frame, textvariable=optXstep, font = Light_font)
-label_y_steps = tk.Label(master=xyz_steps_frame, text = "Y Steps",  font= Bold_font, bg= "gray90")
+label_y_steps = tk.Label(master=xyz_steps_frame, text = "Y Steps",  font= Bold_font, bg= bg_color_2)
 input_y_steps = tk.Entry(master = xyz_steps_frame, textvariable=optYstep, font = Light_font)
-label_z_steps = tk.Label(master=xyz_steps_frame, text = "Z Steps",  font= Bold_font, bg= "gray90")
+label_z_steps = tk.Label(master=xyz_steps_frame, text = "Z Steps",  font= Bold_font, bg= bg_color_2)
 input_z_steps = tk.Entry(master = xyz_steps_frame, textvariable=optZstep, font = Light_font)
 
 label_x_steps.place(x = 10, y = 16, width = 80, height=30)
@@ -339,9 +355,9 @@ input_z_steps .place(x = 100, y = 108, width = 110, height=30)
 sepperation = ttk.Separator(master = xyz_steps_frame, orient= "vertical")
 sepperation.place(x = 225, y = 5, height= 140)
 
-label_Radius = tk.Label(master=xyz_steps_frame, text = "Radius",  font= Bold_font, bg= "gray90")
+label_Radius = tk.Label(master=xyz_steps_frame, text = "Radius",  font= Bold_font, bg= bg_color_2)
 input_Radius = tk.Entry(master = xyz_steps_frame, textvariable=optRd, font = Light_font)
-label_Height = tk.Label(master=xyz_steps_frame, text = "Height",  font= Bold_font, bg= "gray90")
+label_Height = tk.Label(master=xyz_steps_frame, text = "Height",  font= Bold_font, bg= bg_color_2)
 input_Height = tk.Entry(master = xyz_steps_frame, textvariable=optRd, font = Light_font)
 
 label_Radius.place(x = 235, y = 16, width = 80, height=30)
@@ -349,15 +365,15 @@ input_Radius.place(x =  325, y = 16, width = 110, height=30)
 label_Height.place(x = 235, y = 62, width = 80, height=30)
 input_Height.place(x =  325, y = 62, width = 110, height=30)
 
-button_mov = tk.Button(master = xyz_steps_frame, text= "Move",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font)
-button_stop = tk.Button(master =xyz_steps_frame, text= "Stop",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font)
+button_mov = tk.Button(master = xyz_steps_frame, text= "Move",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, bg=button_color_2)
+button_stop = tk.Button(master =xyz_steps_frame, text= "Stop",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, bg=button_color_2)
 
 button_mov.place(x = 10, y = 160, width= 205, height=30)
 button_stop.place(x = 235, y = 160, width= 205, height=30)
 
 
 # command 프레임 구성
-command_fram_3 = tk.Frame(xyz_motion_frame, width= 900, height=400, relief= "solid")
+command_fram_3 = tk.Frame(xyz_motion_frame, width= 900, height=400, relief= "solid", bg=bg_color_2)
 command_fram_3.place(x=0, y=200)
 
 scroll_3 = tk.Scrollbar(command_fram_3, orient='vertical')
