@@ -21,9 +21,9 @@ COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 
 - 입력한 command에 대한 respond 값은 ">>> respond 값"으로 발생합니다.
 
 ### 구동결과
-<figure class="half">  
-<a href="link"><img src="image/JPE Controller 구동 확인_1.PNG"></a>  
-<a href="link"><img src="image/JPE Controller 구동 확인_ERROR_1.PNG"></a> </figure>
+<p float = "left">  
+<img src="image/JPE Controller 구동 확인_1.PNG"  />
+<img src="image/JPE Controller 구동 확인_ERROR_1.PNG" /> </p>
 
 ### 주요 Command
 |Command|설명|
