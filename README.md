@@ -14,6 +14,7 @@ pip를 활용하여 pyserial을 설치할 수 있습니다.
 ------------------------------------------------------------------
 ### Interface
 <img src="image/JPE Controller_1.PNG">
+
 COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 수  있습니다. 
 
 - commad 창에 원하는 command 입력한 후 enter 버튼 혹은 enterkey을 누르면 해당 command가 설정한 port에 입력됩니다.
@@ -22,8 +23,8 @@ COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 
 
 ### 구동결과
 <p float = "left">  
-<img src="image/JPE Controller 구동 확인_1.PNG"  />
-<img src="image/JPE Controller 구동 확인_ERROR_1.PNG" /> </p>
+<img src="image/JPE Controller 구동 확인_1.PNG"  width = "450"/>
+<img src="image/JPE Controller 구동 확인_ERROR_1.PNG" width = "450"/> </p>
 
 ### 주요 Command
 |Command|설명|
@@ -38,6 +39,7 @@ Motion Control 창
 ---------------------------------------------------------
 ### Interface
 <img src="image/JPE Controller_2.png">
+
 CADM 동작을 간단한 버튼을 통해 제어할 수 있습니다.
 
 #### parameter 설명
@@ -57,9 +59,10 @@ CADM 동작을 간단한 버튼을 통해 제어할 수 있습니다.
 |Stop |반복 동작이 시행된 상황에서 해당 Address의 동작을 멈춘다.|
 
 ### 구동결과
-<figure class="half">  
-<a href="link"><img src="image/JPE Controller 구동 확인_2.PNG"></a>  
-<a href="link"><img src="image/오실로스코프 측정결과.jpg"></a> </figure>
+
+<p float = "left">  
+<img src="image/JPE Controller 구동 확인_2.PNG"  width = "450"/>
+<img src="image/오실로스코프 측정결과.jpg" width = "450"/> </p>
 
 XYZ Motion Control 창
 ---------------------------------------------------------
