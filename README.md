@@ -23,8 +23,8 @@ COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 
 
 ### 구동결과
 <p float = "left">  
-<img src="image/JPE Controller 구동 확인_1.PNG"  width = "450"/>
-<img src="image/JPE Controller 구동 확인_ERROR_1.PNG" width = "450"/> </p>
+<img src="image/JPE Controller 구동 확인_1.PNG"  width = "50%"/>
+<img src="image/JPE Controller 구동 확인_ERROR_1.PNG" width = "50%"/> </p>
 
 ### 주요 Command
 |Command|설명|
@@ -61,8 +61,8 @@ CADM 동작을 간단한 버튼을 통해 제어할 수 있습니다.
 ### 구동결과
 
 <p float = "left">  
-<img src="image/JPE Controller 구동 확인_2.PNG"  width = "450"/>
-<img src="image/오실로스코프 측정결과.jpg" width = "450"/> </p>
+<img src="image/JPE Controller 구동 확인_2.PNG"  width = "50%"/>
+<img src="image/오실로스코프 측정결과.jpg" width = "50%"/> </p>
 
 XYZ Motion Control 창
 ---------------------------------------------------------
