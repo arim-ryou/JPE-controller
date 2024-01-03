@@ -1,7 +1,11 @@
-import time
+
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.font as TK_font
+
+import numpy as np
+import math 
+import time
 
 import threading as thrd
 from functools import partial
@@ -84,31 +88,29 @@ optZstep = tk.IntVar()
 optZstep.set(0)
 
 optRd = tk.IntVar()
-optRd.set(0)
+optRd.set(2)
 optHt = tk.IntVar()
-optHt.set(0)
+optHt.set(1)
 
 # 기능 모음
 ## Serial communication Frame 기능
 def commanding_1(command):
     command_result  = '<<< '+command+"\n"
-    respond_text.insert('end', command_result, "Command")
+    respond_text_1.insert('end', command_result, "Command")
     try:
-        error_flag = 0 
         with CpscSerial.CpscSerialInterface(('COM' + str(optCom.get())), optBr.get()) as serial_port: 
             response = serial_port.WriteRead(command, 1)
             response_result = '>>> '+response+"\n"
-            respond_text.insert('end', response_result, "Response")
+            respond_text_1.insert('end', response_result, "Response")
+            command_entry.delete(0, "end")
 
     except IOError:
-        error_flag = 1
         response_result = ">>> Serial port에 연결할 수 없습니다.\n"
-        respond_text.insert('end', response_result, "Error")
+        respond_text_1.insert('end', response_result, "Error")
     
-    return(command_result, response_result, error_flag)
-
+    
 def txtResp_clear_click_1(): # command 창 지우기
-    respond_text.delete("1.0", "end")
+    respond_text_1.delete("1.0", "end")
 
 def enter(event): # 입력한 명령어 실행 및 응답 표시
     Enter_command = thrd.Thread(target=commanding_1, args =(command_entry.get(),))
@@ -119,19 +121,14 @@ def commanding_2(command):
     command_result  = '<<< '+command+"\n"
     respond_text_2.insert('end', command_result, "Command")
     try:
-        error_flag = 0 
         with CpscSerial.CpscSerialInterface(('COM' + str(optCom.get())), optBr.get()) as serial_port: 
             response = serial_port.WriteRead(command, 1)
             response_result = '>>> '+response+"\n"
             respond_text_2.insert('end', response_result, "Response")
 
     except IOError:
-        error_flag = 1
         response_result = ">>> Serial port에 연결할 수 없습니다.\n"
         respond_text_2.insert('end', response_result, "Error")
-    
-    return(command_result, response_result, error_flag)
-
 
 
 def txtResp_clear_click_2(): # command 창 지우기
@@ -155,7 +152,58 @@ def command_stop(address):
     Stop_command.start()
 
 ## XYZ motion control Frame 기능
+def commanding_3(command):
+    command_result  = '<<< '+command+"\n"
+    respond_text_3.insert('end', command_result, "Command")
+
+    try:
+        with CpscSerial.CpscSerialInterface(('COM' + str(optCom.get())), optBr.get()) as serial_port: 
+            response = serial_port.WriteRead(command, 1)
+            response_result = '>>> '+response+"\n"
+            respond_text_3.insert('end', response_result, "Response")
+
+    except IOError:
+        response_result = ">>> Serial port에 연결할 수 없습니다.\n"
+        respond_text_3.insert('end', response_result, "Error")
+
+
+def txtResp_clear_click_3(): # command 창 지우기
+    respond_text_3.delete("1.0", "end")
     
+def xyz_move_command():
+    R = optRd.get()
+    H = optHt.get()
+    xyz_steps = np.array([optXstep.get(), optYstep.get(), optZstep.get()]).T
+    Trans_matrix = np.array([[(np.sqrt(3)*R)/(2*H), R/(2*H), 1], 
+                             [0, -R/H, 1], 
+                             [-(np.sqrt(3)*R)/(2*H), R/(2*H), 1]])
+    z_steps = Trans_matrix.dot(xyz_steps)
+
+    Addr = 1
+
+    for steps in z_steps:
+        steps_dec , steps_int = math.modf(round(abs(steps), 2))
+
+
+        if steps < 0 :
+            Dir = 0 
+        else:
+            Dir = 1
+        steps_dec , steps_int = math.modf(round(abs(steps), 2))
+
+        if steps_int != 0:
+            command_int = "MOV %i %i %s %i %i %s %s %s" %(Addr, Dir, optFreq.get(), 100, int(steps_int), optTemp.get(), stage, optDf.get())
+            commanding_3(command_int)
+
+        if steps_dec != 0:
+            command_dec = "MOV %i %i %s %i %i %s %s %s" %(Addr, Dir, optFreq.get(), int(steps_dec*100), 1, optTemp.get(), stage, optDf.get())
+            commanding_3(command_dec)
+
+        Addr += 1
+
+
+
+
 
 ###################################-- Serial Communication Frame 구성 --##########################################
 
@@ -188,14 +236,14 @@ command_entry.bind("<Return>", enter)
 enter_button = tk.Button(command_fram_1, text = "Enter" ,overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, bg=button_color_2)
 enter_button.bind("<Button-1>", enter)
 scroll = tk.Scrollbar(command_fram_1, orient='vertical')
-respond_text = tk.Text(command_fram_1, yscrollcommand=scroll.set, font=Light_font)
-respond_text.tag_configure("Error", foreground="red")
-respond_text.tag_configure("Response", foreground="blue")
-respond_text.tag_configure("Command", foreground="black")
+respond_text_1 = tk.Text(command_fram_1, yscrollcommand=scroll.set, font=Light_font)
+respond_text_1.tag_configure("Error", foreground="red")
+respond_text_1.tag_configure("Response", foreground="blue")
+respond_text_1.tag_configure("Command", foreground="black")
 
 command_entry.place(x= 10, y = 10, width= 520, height=30)
 enter_button.place(x= 540, y = 10, width= 110, height=30)
-respond_text.place(x= 10, y = 50, width = 620, height= 515)
+respond_text_1.place(x= 10, y = 50, width = 620, height= 515)
 scroll.place(x = 630, y = 50, height= 515)
 
 ###################################### -- Motion control Frame 구성 --#######################################
@@ -295,31 +343,29 @@ respond_text_2.place(x= 5, y = 5, width = 870, height= 360)
 ###################################-- XYZ motion control Frame 구성 --##########################################
 # port 프레임 구성
 
-port_frame_2 = tk.Frame(xyz_motion_frame, width= 225, height=200, relief= "solid", bg= bg_color_1)
+port_frame_2 = tk.Frame(xyz_motion_frame, width= 225, height=150, relief= "solid", bg= bg_color_1)
 port_frame_2.place(x=0, y = 0)
 
 label_port_3 = tk.Label(master = port_frame_2, text="COM port", font = Bold_font, bg= bg_color_1)
 input_port_3 = tk.Spinbox(master = port_frame_2, from_= 0, to = 100, textvariable = optCom, font=Light_font)
 label_baudrate_3 = tk.Label(master = port_frame_2, text = "Baudrate", font = Bold_font, bg= bg_color_1)
 input_baudrate_3 = tk.Spinbox(master = port_frame_2, from_= 9600, to = 1000000, textvariable = optBr, font= Light_font)
-butTxtRespClear_3 = tk.Button( master = port_frame_2, text="Clear command history", font = Bold_font, bg=button_color)
+butTxtRespClear_3 = tk.Button( master = port_frame_2, text="Clear command history", font = Bold_font, bg=button_color, command=txtResp_clear_click_3)
 
 label_port_3.place(x=15, y= 16, width= 90, height=30)
 input_port_3.place(x = 120, y = 16, width= 90, height=30)
 label_baudrate_3.place(x= 15, y= 62, width= 90, height=30)
 input_baudrate_3.place(x= 120, y= 62, width= 90, height=30)
-butTxtRespClear_3.place(x = 10, y= 160, width=205, height=30)
+butTxtRespClear_3.place(x = 10, y= 108, width=205, height=30)
 
 # config 프레임 구성
-config_frame_2 =tk.Frame(xyz_motion_frame, width=225, height=200, relief="groove", bg= bg_color_2, bd=1)
+config_frame_2 =tk.Frame(xyz_motion_frame, width=225, height=150, relief="groove", bg= bg_color_2, bd=1)
 config_frame_2.place(x=225, y=0)
 
 label_freq_2 = tk.Label(master=config_frame_2, text ="Frequency [Hz]", font= Bold_font, bg= bg_color_2)
 input_freq_2 = tk.Spinbox(master = config_frame_2, from_ = 1, to = 600, textvariable=optFreq, font = Light_font)
 label_temp_2 = tk.Label(master = config_frame_2, text = "Temperature [K]", font= Bold_font, bg= bg_color_2)
 input_temp_2 = tk.Spinbox(master= config_frame_2,from_ = 0, to = 300, textvariable=optTemp, font = Light_font )
-label_stepSize_2 = tk.Label(master=config_frame_2, text ="Step size [%]", font= Bold_font, bg= bg_color_2)
-input_stepSize_2 = tk.Spinbox(master = config_frame_2, from_ = 1, to = 100, textvariable=optRss, font = Light_font)
 label_DriveFact_2 = tk.Label(master = config_frame_2, text= "Drive Factor", font = Bold_font,  bg= bg_color_2)
 input_DriveFact_2 = tk.Spinbox(master = config_frame_2, from_ = 0.1, to = 3.0, increment = 0.1,textvariable= optDf, font = Light_font)
 
@@ -327,15 +373,12 @@ label_freq_2.place(x= 0, y=16, width=140, height= 30)
 input_freq_2.place(x = 145, y= 16, width = 70, height=30)
 label_temp_2.place(x = 0, y = 62, width = 140, height=30)
 input_temp_2.place(x = 145, y = 62, width = 70, height=30)
-label_stepSize_2.place(x = 0, y = 108, width = 140, height=30)
-input_stepSize_2.place(x = 145, y = 108, width = 70, height=30)
-label_DriveFact_2.place(x = 0, y = 154, width = 140, height=30)
-input_DriveFact_2.place(x = 145, y = 154, width= 70, height= 30)
-
+label_DriveFact_2.place(x = 0, y = 108, width = 140, height=30)
+input_DriveFact_2.place(x = 145, y = 108, width = 70, height=30)
 
 
 # xyz steps 프레임 구성
-xyz_steps_frame = tk.Frame(xyz_motion_frame, width=450, height=200, relief="groove", bg= bg_color_2, bd=1)
+xyz_steps_frame = tk.Frame(xyz_motion_frame, width=450, height=150, relief="groove", bg= bg_color_2, bd=1)
 xyz_steps_frame.place(x=450, y=0)
 
 label_x_steps = tk.Label(master=xyz_steps_frame, text = "X Steps",  font= Bold_font, bg= bg_color_2)
@@ -355,26 +398,26 @@ input_z_steps .place(x = 100, y = 108, width = 110, height=30)
 sepperation = ttk.Separator(master = xyz_steps_frame, orient= "vertical")
 sepperation.place(x = 225, y = 5, height= 140)
 
-label_Radius = tk.Label(master=xyz_steps_frame, text = "Radius",  font= Bold_font, bg= bg_color_2)
+label_Radius = tk.Label(master=xyz_steps_frame, text = "Radius(mm)",  font= Bold_font, bg= bg_color_2)
 input_Radius = tk.Entry(master = xyz_steps_frame, textvariable=optRd, font = Light_font)
-label_Height = tk.Label(master=xyz_steps_frame, text = "Height",  font= Bold_font, bg= bg_color_2)
-input_Height = tk.Entry(master = xyz_steps_frame, textvariable=optRd, font = Light_font)
+label_Height = tk.Label(master=xyz_steps_frame, text = "Height(mm)",  font= Bold_font, bg= bg_color_2)
+input_Height = tk.Entry(master = xyz_steps_frame, textvariable=optHt, font = Light_font)
 
-label_Radius.place(x = 235, y = 16, width = 80, height=30)
-input_Radius.place(x =  325, y = 16, width = 110, height=30)
-label_Height.place(x = 235, y = 62, width = 80, height=30)
-input_Height.place(x =  325, y = 62, width = 110, height=30)
+label_Radius.place(x = 235, y = 16, width = 100, height=30)
+input_Radius.place(x =  345, y = 16, width = 90, height=30)
+label_Height.place(x = 235, y = 62, width = 100, height=30)
+input_Height.place(x =  345, y = 62, width = 90, height=30)
 
-button_mov = tk.Button(master = xyz_steps_frame, text= "Move",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, bg=button_color_2)
-button_stop = tk.Button(master =xyz_steps_frame, text= "Stop",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, bg=button_color_2)
+button_mov = tk.Button(master = xyz_steps_frame, text= "Move",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, bg=button_color_2, 
+                       command= xyz_move_command)
 
-button_mov.place(x = 10, y = 160, width= 205, height=30)
-button_stop.place(x = 235, y = 160, width= 205, height=30)
+button_mov.place(x = 235, y = 108, width= 205, height=30)
+
 
 
 # command 프레임 구성
-command_fram_3 = tk.Frame(xyz_motion_frame, width= 900, height=400, relief= "solid", bg=bg_color_2)
-command_fram_3.place(x=0, y=200)
+command_fram_3 = tk.Frame(xyz_motion_frame, width= 900, height=420, relief= "solid", bg=bg_color_2)
+command_fram_3.place(x=0, y=150)
 
 scroll_3 = tk.Scrollbar(command_fram_3, orient='vertical')
 respond_text_3 = tk.Text(command_fram_3, yscrollcommand=scroll_3.set, font=Light_font)
@@ -382,7 +425,7 @@ respond_text_3.tag_configure("Error", foreground="red")
 respond_text_3.tag_configure("Response", foreground="blue")
 respond_text_3.tag_configure("Command", foreground="black")
 
-scroll_3.place(x = 875, y = 5, height= 360)
-respond_text_3.place(x= 5, y = 5, width = 870, height= 360)
+scroll_3.place(x = 875, y = 5, height= 410)
+respond_text_3.place(x= 5, y = 5, width = 870, height= 410)
 
 window.mainloop()
