@@ -75,8 +75,8 @@ XYZ Motion Control 창
 |Parameter|설명 |
 |---------------|-------------------------------------------|
 |Steps | 해당 방향 (x, y, z)으로 이동할 Step 수를 설정 |
-|Radius (mm) | 중심으로 부터 Actuater까지 거리 (int)|
-|Height (mm) | Stage의 위면에 놓인 물체의 높이 (int)|
+|Radius (mm) | 중심으로부터 Actuator까지 거리 (int)|
+|Height (mm) | Stage의 윗면에 놓인 물체의 높이 (int)|
 
 
 #### Move _XYZ Flow Chart
