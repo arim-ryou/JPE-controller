@@ -15,9 +15,9 @@ pip를 활용하여 pyserial을 설치할 수 있습니다.
 ### Interface
 <img src="image/JPE Controller_1.PNG">
 
-COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 수  있습니다. 
+COM port number와 Baudrate를 설정하면, 해당 port에 command를 삽입할 수  있습니다. 
 
-- commad 창에 원하는 command 입력한 후 enter 버튼 혹은 enterkey을 누르면 해당 command가 설정한 port에 입력됩니다.
+- commad 창에 원하는 command 입력한 후 'enter 버튼' 혹은 'enter key'를 누르면 해당 command가 설정한 port에 입력됩니다.
 - 입력한 command 값은 "<<< cammand 값"의 형태로 창에 나타납니다.
 - 입력한 command에 대한 respond 값은 ">>> respond 값"으로 발생합니다.
 
