@@ -80,6 +80,12 @@ XYZ Motion Control 창
 
 
 #### Move _XYZ Flow Chart
+<p float = "left">  
+<img src="image/xyz_move_flow_chart.png"  width = "49%"/>
+<img src="image/matrix_image.jpg" width = "49%"/> </p>
 
-
-
+#### 구동 결과
+<p float = "left">  
+<img src="image/JPE Controller 구동 확인_3.PNG"  width = "33%"/>
+<img src="image/JPE Controller 구동 확인_5.PNG" width = "33%"/> 
+<img src="image\JPE Controller 구동 확인_4.PNG" width = "33%"/> </p>
