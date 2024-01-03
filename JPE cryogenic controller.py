@@ -198,11 +198,11 @@ def xyz_move_command():
         if steps_dec != 0:
             command_dec = "MOV %i %i %s %i %i %s %s %s" %(Addr, Dir, optFreq.get(), int(steps_dec*100), 1, optTemp.get(), stage, optDf.get())
             commanding_3(command_dec)
-
         Addr += 1
 
-
-
+def xyz_nove_thr():
+    xyz_mov_command = thrd.Thread(target = xyz_move_command)
+    xyz_mov_command.start()
 
 
 ###################################-- Serial Communication Frame 구성 --##########################################
@@ -409,7 +409,7 @@ label_Height.place(x = 235, y = 62, width = 100, height=30)
 input_Height.place(x =  345, y = 62, width = 90, height=30)
 
 button_mov = tk.Button(master = xyz_steps_frame, text= "Move",overrelief="solid", repeatdelay=1000, repeatinterval=1000, font = Bold_font, bg=button_color_2, 
-                       command= xyz_move_command)
+                       command= xyz_nove_thr)
 
 button_mov.place(x = 235, y = 108, width= 205, height=30)
 
