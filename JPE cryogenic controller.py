@@ -22,8 +22,8 @@ window.title("JPE cryogenic controller")
 window.geometry("900x600+100+100")
 window.resizable(False, False)
 
-teg_1 = "#E9EDC9"
-teg_2 = "#CCD5AE"
+teg_1 = "#CCD5AE"
+teg_2 = "#E9EDC9"
 bg_color_1 = "#FAEDCD"
 bg_color_2 = "#FEFAE0"
 button_color = "#D4A373"
