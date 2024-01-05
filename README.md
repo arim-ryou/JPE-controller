@@ -61,8 +61,8 @@ CADM 동작을 간단한 버튼을 통해 제어할 수 있습니다.
 ### 구동결과
 
 <p float = "left">  
-<img src="image/JPE Controller 구동 확인_2.PNG"  width = "49%"/>
-<img src="image/오실로스코프 측정결과.jpg" width = "49%"/> </p>
+<img src="image/JPE Controller 구동 확인_2.PNG" />
+<img src="image/오실로스코프 측정결과.jpg" /> </p>
 
 XYZ Motion Control 창
 ---------------------------------------------------------
