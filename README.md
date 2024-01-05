@@ -15,9 +15,9 @@ pip를 활용하여 pyserial을 설치할 수 있습니다.
 ### Interface
 <img src="image/JPE Controller_1.PNG">
 
-COM port number와 Baudrate를 설정하면, 해당 port에 command를 삽입할 수  있습니다. 
+COM port number와 Baudrate를 설정하면, 해당 port에 commad를 삽입할 수  있습니다. 
 
-- commad 창에 원하는 command 입력한 후 'enter 버튼' 혹은 'enter key'를 누르면 해당 command가 설정한 port에 입력됩니다.
+- commad 창에 원하는 command 입력한 후 enter 버튼 혹은 enterkey을 누르면 해당 command가 설정한 port에 입력됩니다.
 - 입력한 command 값은 "<<< cammand 값"의 형태로 창에 나타납니다.
 - 입력한 command에 대한 respond 값은 ">>> respond 값"으로 발생합니다.
 
@@ -75,14 +75,13 @@ XYZ Motion Control 창
 |Parameter|설명 |
 |---------------|-------------------------------------------|
 |Steps | 해당 방향 (x, y, z)으로 이동할 Step 수를 설정 |
-|Radius (mm) | 중심으로부터 Actuator까지 거리 (int)|
-|Height (mm) | Stage의 윗면에 놓인 물체의 높이 (int)|
+|Radius (mm) | 중심으로 부터 Actuater까지 거리 (int)|
+|Height (mm) | Stage의 위면에 놓인 물체의 높이 (int)|
 
 
 #### Move _XYZ Flow Chart
-<p float = "left">  
-<img src="image/xyz_move_flow_chart.png"  width = "49%"/>
-<img src="image/matrix_image.jpg" width = "49%"/> </p>
+
+<img src="image/JPE_controller_flow_chart.jpg">
 
 #### 구동 결과
 <p float = "left">  
