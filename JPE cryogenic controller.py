@@ -1,11 +1,9 @@
-
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.font as TK_font
 
 import numpy as np
 import math 
-import time
 
 import threading as thrd
 from functools import partial
