@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
+from functools import partial
+
 class View:
     def __init__(self, window):
         self.window = window
@@ -16,11 +18,11 @@ class View:
         self.optRss = tk.StringVar() ; self.optRss.set('100')
         self.optDf = tk.StringVar() ; self.optDf.set('1.0')
 
-        self.optPos, self.optDir, self.optSteps = [tk.DoubleVar(), tk.StringVar(), tk.StringVar()]
+        self.optPos = tk.DoubleVar(); self.optDir =  tk.StringVar(); self.optSteps = tk.StringVar()
         self.optPos.set('0') ; self.optDir.set('1') ; self.optSteps.set("0")
-        self.optPos_2, self.optDir_2, self.optSteps_2 = [tk.DoubleVar(), tk.StringVar(), tk.StringVar()]
+        self.optPos_2 = tk.DoubleVar(); self.optDir_2 =  tk.StringVar(); self.optSteps_2 = tk.StringVar() 
         self.optPos_2.set('0') ; self.optDir_2.set('1') ; self.optSteps_2.set("0")
-        self.optPos_3, self.optDir_3, self.optSteps_3 = [tk.DoubleVar(), tk.StringVar(), tk.StringVar()]
+        self.optPos_3 = tk.DoubleVar(); self.optDir_3 =  tk.StringVar(); self.optSteps_3 = tk.StringVar()
         self.optPos_3.set('0') ; self.optDir_3.set('1') ; self.optSteps_3.set("0")
 
         self.optXstep = tk.DoubleVar(); self.optYstep = tk.DoubleVar(); self.optZstep =tk.DoubleVar()
@@ -121,16 +123,16 @@ class View:
 
     def create_address_frame(self, Frame, address, position ,optDir, optSteps):
         self.label_addr = ttk.Label(master=Frame, text ="Address " + str(address), anchor='center')
-        self.label_position = ttk.Label(master=Frame,  text = position.get(), relief = "sunken", anchor='center')
+        self.entry_position = ttk.Entry(master=Frame,  textvariable= position, state="readonly")
         self.check_dir = ttk.Checkbutton(master=Frame, text= "Positive Direction", variable= optDir)
         self.label_steps = ttk.Label(master=Frame, text ="Steps", anchor='center')
         self.input_steps = ttk.Spinbox(master = Frame, from_ = 0, to = 50000, textvariable=optSteps)
-        self.button_GFS = ttk.Button(master = Frame, text= "State")
-        self.button_mov = ttk.Button(master = Frame, text= "Move")
-        self.button_stop = ttk.Button(master = Frame, text= "Stop")
+        self.button_GFS = ttk.Button(master = Frame, text= "State", command=partial(self.Command_state, address))
+        self.button_mov = ttk.Button(master = Frame, text= "Move", command = partial(self.Command_move, address))
+        self.button_stop = ttk.Button(master = Frame, text= "Stop", command = partial(self.Command_stop, address))
 
         self.label_addr.place(x = 5 , y = 10, height= 30, width=110)
-        self.label_position.place(x = 125, y = 10, height=30, width=120)
+        self.entry_position.place(x = 125, y = 10, height=30, width=120)
         self.label_steps.place(x = 5, y = 50, height= 30, width=110)
         self.input_steps.place(x = 125, y = 50, width = 120, height= 30)
         self.check_dir.place(x = 5, y = 90, height=30, width=240)
@@ -186,7 +188,7 @@ class View:
         self.label_Height.place(x = 260, y = 80, width = 110, height=40)
         self.input_Height.place(x =  380, y = 80, width =110, height=40)
 
-        button_mov = ttk.Button(master = self.xyz_steps_frame, text= "Move")
+        button_mov = ttk.Button(master = self.xyz_steps_frame, text= "Move", command = self.Command_XYZ_move)
 
         button_mov.place(x = 265, y = 140, width= 230, height=40)
 
@@ -240,8 +242,40 @@ class View:
         self.respond_text.tag_configure("Response", foreground="blue")
         self.respond_text.insert('end', message, "Response")
 
-    def Command_state(self):
-        pass
+    def Command_state(self, address):
+        if self.controller:
+            self.controller.commanding("GFS "+str(address))
+    
+    def Command_move(self, address):
+        optDir_list = [self.optDir.get(), self.optDir_2.get(), self.optDir_3.get()]
+        optSteps_list = [self.optSteps.get(), self.optSteps_2.get(), self.optSteps_3.get()]
+
+        optDir = optDir_list[address-1]
+        optSteps = optSteps_list[address-1]
+
+        command = "MOV %i %s %s %s %s %s %s %s " % (address, optDir, self.optFreq.get(), self.optRss.get(), optSteps, self.optTemp.get(), self.stage, self.optDf.get())
+        
+        if self.controller:
+            if optDir == "1":
+                steps = float(optSteps)*float(self.optRss.get())/100
+
+            else:
+                steps = - float(optSteps)*float(self.optRss.get())/100
+            
+            self.controller.Moving(address, command, steps)
+    
+    def Command_stop(self, address):
+        if self.controller:
+            self.controller.commanding("STP " + str(address))
+
+    def Command_XYZ_move(self):
+        if self.controller:
+            self.controller.move_xyz()
+
+
+
+
+
 
 
     

@@ -5,7 +5,7 @@ import Model
 from ttkthemes import ThemedTk
 
 if __name__ == '__main__':
-    window = ThemedTk(theme="yaru")
+    window = ThemedTk(theme="arc")
     model = Model.Model()
     view = View.View(window)
     controller = Controller.Controller(model, view)
