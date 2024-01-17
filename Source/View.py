@@ -1,7 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msgbox
-import csv
 
 from functools import partial
 

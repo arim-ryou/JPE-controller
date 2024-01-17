@@ -1,8 +1,49 @@
-from CpscInterfaces import CpscSerialInterface as CpscSerial
 import numpy as np
 import math
 import time
 import csv
+
+import serial
+
+class CpscSerialInterface:
+
+    def __init__(self,comPort,baudrate):
+        self.com = serial.Serial(port = comPort,
+                                 baudrate = baudrate,
+                                 bytesize = 8,
+                                 parity = serial.PARITY_NONE,
+                                 stopbits = serial.STOPBITS_ONE,
+                                 timeout = 10,
+                                 xonxoff = False)
+        self.com.flushInput()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self,exType,exValue,trcbck):
+        self.Close()
+
+    def Close(self):
+        self.com.close()
+
+    def Write(self,txMessage):
+        self.com.write(txMessage.encode('ascii')) # Sent message as ASCII string
+
+    def Read(self):
+        rxMessage =  self.com.read_until(b'\r\n') # Read until termination characters
+        return rxMessage.decode() # Convert message to Python3 string
+
+    def WriteRead(self, txMessage, txTermination):
+        if txTermination == 0:
+            self.Write(txMessage)
+            rxMessage = self.Read()
+            return rxMessage
+        else:
+            self.Write(txMessage + '\r\n')
+            rxMessage = self.Read()
+            rxMessageClean = rxMessage.replace('\r\n', '')
+            return rxMessageClean
+
 
 class Model:
     def __init__(self):
@@ -11,7 +52,7 @@ class Model:
  
     def commanding(self, command):
         try:
-            with CpscSerial.CpscSerialInterface(('COM' + self.optCom), self.optBr) as serial_port: 
+            with CpscSerialInterface(('COM' + self.optCom), self.optBr) as serial_port: 
                 response = serial_port.WriteRead(command, 1)
                 response_result = '>>> '+response+"\n"
                 if response == "":
@@ -61,7 +102,7 @@ class Model:
             address += 1
     
     def save_pos(self, pos):
-        writer = csv.writer(open('position.csv', 'w', newline = ''))
+        writer = csv.writer(open('Source/position.csv', 'w', newline = ''))
         writer.writerow(pos)
 
 

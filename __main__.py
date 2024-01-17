@@ -1,10 +1,10 @@
-import View
-import Controller
-import Model
+from Source import View
+from Source import Controller
+from Source import Model
 from ttkthemes import ThemedTk
 import csv
 
-rdr = csv.reader(open('position.csv', 'r', newline = ''))
+rdr = csv.reader(open('Source/position.csv', 'r', newline = ''))
 for row in rdr:
     pos = row
 
