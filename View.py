@@ -102,12 +102,12 @@ class View:
         self.button_cont = ttk.Button(frame, text = "Reset Position" ,command = self.click_reset)
 
         self.label_freq.place(x=0, y=5, width=90, height= 30)
-        self.input_freq.place(x = 100, y= 5, width = 70, height=30)
+        self.input_freq.place(x = 100, y= 8, width = 70, height=30)
         self.label_temp.place(x = 187.5, y = 5, width = 90, height=30)
-        self.input_temp.place(x = 287.5, y = 5, width = 70, height=30)
+        self.input_temp.place(x = 287.5, y = 8, width = 70, height=30)
         self.label_DriveFact.place(x = 375, y = 5, width = 90, height=30)
-        self.input_DriveFact.place(x = 475, y = 5, width = 70, height=30)
-        self.button_cont.place(x = 650, y = 5)
+        self.input_DriveFact.place(x = 475, y = 8, width = 70, height=30)
+        self.button_cont.place(x = 640, y = 5, width = 100, height=30)
 
         self.address_frame_1 = ttk.Frame(frame, relief = "groove")
         self.address_frame_2 = ttk.Frame(frame, relief = "groove")
@@ -129,13 +129,13 @@ class View:
         self.button_mov = ttk.Button(master = Frame, text= "Move", command = partial(self.Command_move, address))
         self.button_stop = ttk.Button(master = Frame, text= "Stop", command = partial(self.Command_stop, address))
 
-        self.label_addr.place(x = 5 , y = 10, height= 40, width=110)
-        self.entry_position.place(x = 125, y = 10, height=40, width=120)
-        self.label_steps.place(x = 5, y = 60, height= 40, width=110)
-        self.input_steps.place(x = 125, y = 60, height= 40,width = 120)
-        self.button_GFS.place(x = 5, y = 110,  height = 40, width = 80)
-        self.button_mov.place(x = 85, y = 110, height = 40, width = 80)
-        self.button_stop.place(x = 165, y = 110, height = 40, width = 80)
+        self.label_addr.place(x = 5 , y = 15, height= 30, width=110)
+        self.entry_position.place(x = 125, y = 15, height=30, width=120)
+        self.label_steps.place(x = 5, y = 65, height= 30, width=110)
+        self.input_steps.place(x = 125, y = 65, height= 30,width = 120)
+        self.button_GFS.place(x = 5, y = 115,  height = 30, width = 80)
+        self.button_mov.place(x = 85, y = 115, height = 30, width = 80)
+        self.button_stop.place(x = 165, y = 115, height = 30, width = 80)
 
     def create_XYZ_Motion_Control_Window(self, Frame):
         self.config_frame =ttk.Frame(Frame, width=250, height=200, relief="groove")
@@ -148,12 +148,12 @@ class View:
         self.label_DriveFact_2 = ttk.Label(master = self.config_frame, text= "Drive Factor", anchor="center")
         self.input_DriveFact_2 = ttk.Spinbox(master = self.config_frame, from_ = 0.1, to = 3.0, increment = 0.1, textvariable= self.optDf)
 
-        self.label_freq_2.place(x= 10, y=20, width= 110, height= 40)
-        self.input_freq_2.place(x = 130, y= 20, width = 110, height=40)
-        self.label_temp_2.place(x = 10, y = 80, width = 110, height=40)
-        self.input_temp_2.place(x = 130, y = 80, width = 110, height=40)
-        self.label_DriveFact_2.place(x = 10, y = 140, width = 110, height=40)
-        self.input_DriveFact_2.place(x = 130, y = 140, width = 110, height=40)
+        self.label_freq_2.place(x= 10, y=25, width= 110, height= 30)
+        self.input_freq_2.place(x = 130, y= 28, width = 110, height=30)
+        self.label_temp_2.place(x = 10, y = 85, width = 110, height=30)
+        self.input_temp_2.place(x = 130, y = 88, width = 110, height=40)
+        self.label_DriveFact_2.place(x = 10, y = 145, width = 110, height=30)
+        self.input_DriveFact_2.place(x = 130, y = 148, width = 110, height=30)
 
         self.xyz_steps_frame = ttk.Frame(Frame, width=500, height=200, relief="groove")
         self.xyz_steps_frame.place(x=250, y=0)
@@ -165,12 +165,12 @@ class View:
         self.label_z_steps = ttk.Label(master=self.xyz_steps_frame, text = "Z Steps", anchor="center")
         self.input_z_steps = ttk.Entry(master = self.xyz_steps_frame, textvariable=self.optZstep)
 
-        self.label_x_steps.place(x = 10, y = 20, width = 110, height=40)
-        self.input_x_steps.place(x =  130, y = 20, width = 110, height=40)
-        self.label_y_steps .place(x = 10, y = 80, width = 110, height=40)
-        self.input_y_steps.place(x =  130, y = 80, width = 110, height=40)
-        self.label_z_steps.place(x = 10, y = 140, width = 110, height=40)
-        self.input_z_steps .place(x = 130, y = 140, width = 110, height=40)
+        self.label_x_steps.place(x = 10, y = 25, width = 110, height=30)
+        self.input_x_steps.place(x =  130, y = 25, width = 110, height=30)
+        self.label_y_steps .place(x = 10, y = 85, width = 110, height=30)
+        self.input_y_steps.place(x =  130, y = 85, width = 110, height=30)
+        self.label_z_steps.place(x = 10, y = 145, width = 110, height=30)
+        self.input_z_steps .place(x = 130, y = 145, width = 110, height=30)
 
         self.sepperation = ttk.Separator(master = self.xyz_steps_frame, orient= "vertical")
         self.sepperation.place(x = 255, y = 5, height= 190)
@@ -180,14 +180,14 @@ class View:
         self.label_Height = ttk.Label(master=self.xyz_steps_frame, text = "Height(mm)", anchor="center")
         self.input_Height = ttk.Entry(master = self.xyz_steps_frame, textvariable=self.optHt)
 
-        self.label_Radius.place(x = 260, y = 20, width = 110, height=40)
-        self.input_Radius.place(x =  380, y = 20, width =110, height=40)
-        self.label_Height.place(x = 260, y = 80, width = 110, height=40)
-        self.input_Height.place(x =  380, y = 80, width =110, height=40)
+        self.label_Radius.place(x = 260, y = 25, width = 110, height=30)
+        self.input_Radius.place(x =  380, y = 25, width =110, height=30)
+        self.label_Height.place(x = 260, y = 85, width = 110, height=30)
+        self.input_Height.place(x =  380, y = 85, width =110, height=30)
 
         button_mov = ttk.Button(master = self.xyz_steps_frame, text= "Move", command = self.Command_XYZ_move)
 
-        button_mov.place(x = 265, y = 140, width= 230, height=40)
+        button_mov.place(x = 265, y = 145, width= 230, height=30)
 
     def create_Respond_Frame(self, frame):
         self.scroll = ttk.Scrollbar(frame, orient='vertical')
@@ -204,12 +204,12 @@ class View:
         self.but_set_port = ttk.Button(frame, text='Set port', command = self.Set_port_click)
         self.butTxtRespClear = ttk.Button(frame, text="Clear command history", command = self.txtResp_clear_click)
 
-        self.label_com.place(x = 560, y = 10, width= 60, height = 30)
-        self.input_com.place(x = 630, y = 10, width = 110, height=30)
-        self.label_baudrate.place(x = 560, y = 50, width = 60, height = 30)
-        self.input_baudrate.place(x = 630, y = 50, width= 110, height= 30)
+        self.label_com.place(x = 560, y = 15, width= 60, height = 30)
+        self.input_com.place(x = 630, y = 15, width = 110, height=30)
+        self.label_baudrate.place(x = 560, y = 55, width = 60, height = 30)
+        self.input_baudrate.place(x = 630, y = 55, width= 110, height= 30)
         
-        self.but_set_port.place( x = 560, y = 90, width = 180, height= 30)
+        self.but_set_port.place( x = 560, y = 95, width = 180, height= 30)
         self.butTxtRespClear.place(x= 560, y = 380, width=180, height= 30)
     
     def set_controller(self, controller):
@@ -241,11 +241,11 @@ class View:
 
     def show_error(self, message):
         self.respond_text.tag_configure("Error", foreground="red")
-        self.respond_text.insert('end', message, "Error")
+        self.respond_text.insert('end', message+"\n", "Error")
 
     def show_respond(self, message):
         self.respond_text.tag_configure("Response", foreground="blue")
-        self.respond_text.insert('end', message, "Response")
+        self.respond_text.insert('end', message+"\n", "Response")
 
     def Command_state(self, address):
         if self.controller:

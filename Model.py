@@ -1,6 +1,7 @@
 from CpscInterfaces import CpscSerialInterface as CpscSerial
 import numpy as np
 import math
+import time
 
 class Model:
     def __init__(self):
@@ -33,7 +34,7 @@ class Model:
         if Steps < 0:
             Dir = 0 
         else:
-            Dir = -1
+            Dir = 1
 
         steps_dec , steps_int = math.modf(round(abs(Steps), 2))
         
@@ -46,13 +47,14 @@ class Model:
             self.commanding(command)
     
     def reset_position(self, Freq, Temp, stage, Df, pos):
-        init_step = 10
+        init_step = 100
         move_steps = -(np.round(np.array(init_step)+ pos)+1)
 
         address = 1
 
         for move_step in move_steps:
             self.moving(address, Freq, move_step, Temp, stage, Df)
+            time.sleep(0.5)
             self.moving(address, Freq, init_step, Temp, stage, Df)
 
             address += 1

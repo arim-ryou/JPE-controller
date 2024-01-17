@@ -11,6 +11,7 @@ class Controller:
             self.view.show_respond(respond)
         
         except ValueError as error:
+            error = "port 설정을 확인해 주세요. \n"
             self.view.show_error(error)
 
     def setting_port(self, optCom, optBr):
@@ -28,29 +29,30 @@ class Controller:
     
     def moving_Actuator(self, address, Steps):
         if Steps != 0 :
-            command_message = '<<< [Address %d]을 %f 만큼 움직입니다. \n' %(address, Steps)
+            command_message = '<<< [Address %d]을 %s 만큼 움직입니다. \n' %(address, str(round(Steps,2)))
             self.view.show_command(command_message)
             try:
                 self.model.moving(address,self.view.optFreq.get(), Steps, self.view.optTemp.get(), self.view.stage, self.view.optDf.get())
-                self.view.show_respond(">>> [Address %d]을 %f 만큼 움직였습니다. \n") %(address, Steps)
+                self.view.show_respond(">>> [Address %d]을 %s 만큼 움직였습니다. \n " %(address,  str(round(Steps,2))))
                 self.Position_update(address, Steps)
 
             except ValueError as error:
+                error = "port 설정을 확인해 주세요. \n"
                 self.view.show_error(error)
 
     def Position_update(self, address, steps):
-        max_step  = 10
-        min_step = -10
+        max_step  = 100
+        min_step = -100
 
         if address == 1:
             pos = self.view.optPos.get()+ steps
             if pos >= max_step:
                 self.view.optPos.set(max_step)
-                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다." %(address)
                 self.view.show_massage(message)
             elif pos <= min_step:
                 self.view.optPos.set(min_step)
-                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."%(address)
                 self.view.show_massage(message)       
             else:
                 self.view.optPos.set(pos)
@@ -60,11 +62,11 @@ class Controller:
 
             if pos >= max_step:
                 self.view.optPos_2.set(max_step)
-                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."%(address)
                 self.view.show_massage(message)
             elif pos <= min_step:
                 self.view.optPos_2.set(min_step)
-                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."%(address)
                 self.view.show_massage(message)       
             else:
                 self.view.optPos_2.set(pos)
@@ -73,11 +75,11 @@ class Controller:
             
             if pos >= max_step:
                 self.view.optPos_3.set(max_step)
-                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."%(address)
                 self.view.show_massage(message)
             elif pos <= min_step:
                 self.view.optPos_3.set(min_step)
-                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."%(address)
                 self.view.show_massage(message)       
             else:
                 self.view.optPos_3.set(pos)
@@ -102,6 +104,9 @@ class Controller:
         try:
             self.model.reset_position(self.view.optFreq.get(), self.view.optTemp.get(), self.view.stage, self.view.optDf.get(), pos)
             self.view.optPos.set(0); self.view.optPos_2.set(0); self.view.optPos_3.set(0)
+            respond_message = '>>> 초기화를 완료했습니다.\n' 
+            self.view.show_respond(respond_message)
             
         except ValueError as error:
+            error = "port 설정을 확인해 주세요. \n"
             self.view.show_error(error)

@@ -4,7 +4,7 @@ import Model
 from ttkthemes import ThemedTk
 
 if __name__ == '__main__':
-    window = ThemedTk(theme="arc")
+    window = ThemedTk(theme="adapta")
     model = Model.Model()
     view = View.View(window)
     controller = Controller.Controller(model, view)
