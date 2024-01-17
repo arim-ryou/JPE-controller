@@ -1,5 +1,6 @@
 from CpscInterfaces import CpscSerialInterface as CpscSerial
 import numpy as np
+import math
 
 class Model:
     def __init__(self):
@@ -27,3 +28,32 @@ class Model:
         z_steps = Trans_matrix.dot(xyz_steps)
 
         return(list(z_steps))
+
+    def moving(self, address, Freq, Steps, Temp, stage, Df):
+        if Steps < 0:
+            Dir = 0 
+        else:
+            Dir = -1
+
+        steps_dec , steps_int = math.modf(round(abs(Steps), 2))
+        
+        if steps_int != 0:
+            command = "MOV %i %i %s %s %i %s %s %s " % (address, Dir, Freq, "100", steps_int, Temp, stage, Df)
+            self.commanding(command)
+
+        if steps_dec != 0:
+            command = "MOV %i %i %s %s %i %s %s %s " % (address, Dir, Freq, str(int(steps_dec*100)), 1, Temp, stage, Df)
+            self.commanding(command)
+    
+    def reset_position(self, Freq, Temp, stage, Df, pos):
+        init_step = 10
+        move_steps = -(round(init_step + pos)+1)
+
+        address = 1
+
+        for move_step in move_steps:
+            self.moving(address, Freq, move_step, Temp, stage, Df)
+            self.moving(address, Freq, init_step, Temp, stage, Df)
+
+            address += 1
+

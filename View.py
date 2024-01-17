@@ -18,15 +18,15 @@ class View:
         self.optRss = tk.StringVar() ; self.optRss.set('100')
         self.optDf = tk.StringVar() ; self.optDf.set('1.0')
 
-        self.optPos = tk.DoubleVar(); self.optDir =  tk.StringVar(); self.optSteps = tk.StringVar()
-        self.optPos.set('0') ; self.optDir.set('1') ; self.optSteps.set("0")
-        self.optPos_2 = tk.DoubleVar(); self.optDir_2 =  tk.StringVar(); self.optSteps_2 = tk.StringVar() 
-        self.optPos_2.set('0') ; self.optDir_2.set('1') ; self.optSteps_2.set("0")
-        self.optPos_3 = tk.DoubleVar(); self.optDir_3 =  tk.StringVar(); self.optSteps_3 = tk.StringVar()
-        self.optPos_3.set('0') ; self.optDir_3.set('1') ; self.optSteps_3.set("0")
+        self.optPos = tk.DoubleVar(); self.optSteps = tk.DoubleVar()
+        self.optPos.set('0')  ; self.optSteps.set("0")
+        self.optPos_2 = tk.DoubleVar(); self.optSteps_2 = tk.DoubleVar() 
+        self.optPos_2.set('0') ; self.optSteps_2.set("0")
+        self.optPos_3 = tk.DoubleVar(); self.optSteps_3 = tk.DoubleVar()
+        self.optPos_3.set('0') ; self.optSteps_3.set("0")
 
         self.optXstep = tk.DoubleVar(); self.optYstep = tk.DoubleVar(); self.optZstep =tk.DoubleVar()
-        self.optXstep.set('0'); self.optYstep.set('0'), self.optZstep.set('0')
+        self.optXstep.set('0'); self.optYstep.set('0') ;  self.optZstep.set('0')
 
         self.optRd = tk.IntVar(); self.optHt = tk.IntVar()
         self.optRd.set(2); self.optHt.set(1)
@@ -96,19 +96,17 @@ class View:
         self.input_freq = ttk.Spinbox(frame, from_ = 1, to = 600, textvariable=self.optFreq)
         self.label_temp = ttk.Label(frame, text = "Temperature [K]",anchor='e')
         self.input_temp = ttk.Spinbox(frame,from_ = 0, to = 300, textvariable=self.optTemp)
-        self.label_stepSize = ttk.Label(frame, text ="Step size [%]",anchor='e')
-        self.input_stepSize = ttk.Spinbox(frame, from_ = 1, to = 100, textvariable=self.optRss)
         self.label_DriveFact = ttk.Label(frame, text= "Drive Factor",anchor='e')
         self.input_DriveFact = ttk.Spinbox(frame, from_ = 0.1, to = 3.0, increment = 0.1, textvariable= self.optDf)
+        self.button_cont = ttk.Button(frame, text = "Reset Position" ,command = self.click_reset)
 
         self.label_freq.place(x=0, y=5, width=90, height= 30)
         self.input_freq.place(x = 100, y= 5, width = 70, height=30)
         self.label_temp.place(x = 187.5, y = 5, width = 90, height=30)
         self.input_temp.place(x = 287.5, y = 5, width = 70, height=30)
-        self.label_stepSize.place(x = 375, y = 5, width = 90, height=30)
-        self.input_stepSize.place(x = 475, y = 5, width = 70, height=30)
-        self.label_DriveFact.place(x = 562.5, y = 5, width =90, height=30)
-        self.input_DriveFact.place(x = 662.5, y = 5, width= 70, height= 30)
+        self.label_DriveFact.place(x = 375, y = 5, width = 90, height=30)
+        self.input_DriveFact.place(x = 475, y = 5, width = 70, height=30)
+        self.button_cont.place(x = 650, y = 5)
 
         self.address_frame_1 = ttk.Frame(frame, relief = "groove")
         self.address_frame_2 = ttk.Frame(frame, relief = "groove")
@@ -117,28 +115,26 @@ class View:
         self.address_frame_1.place(x=0, y = 40, width=250, height=160)
         self.address_frame_2.place(x=250, y = 40, width=250, height=160)
         self.address_frame_3.place(x=500, y = 40, width=250, height=160)
-        self.create_address_frame(self.address_frame_1, 1, self.optPos, self.optDir, self.optSteps)
-        self.create_address_frame(self.address_frame_2, 2, self.optPos_2, self.optDir_2, self.optSteps_2)
-        self.create_address_frame(self.address_frame_3, 3, self.optPos_3, self.optDir_3, self.optSteps_3)
+        self.create_address_frame(self.address_frame_1, 1, self.optPos, self.optSteps)
+        self.create_address_frame(self.address_frame_2, 2, self.optPos_2, self.optSteps_2)
+        self.create_address_frame(self.address_frame_3, 3, self.optPos_3, self.optSteps_3)
 
-    def create_address_frame(self, Frame, address, position ,optDir, optSteps):
+    def create_address_frame(self, Frame, address, position, optSteps):
         self.label_addr = ttk.Label(master=Frame, text ="Address " + str(address), anchor='center')
         self.entry_position = ttk.Entry(master=Frame,  textvariable= position, state="readonly")
-        self.check_dir = ttk.Checkbutton(master=Frame, text= "Positive Direction", variable= optDir)
         self.label_steps = ttk.Label(master=Frame, text ="Steps", anchor='center')
-        self.input_steps = ttk.Spinbox(master = Frame, from_ = 0, to = 50000, textvariable=optSteps)
+        self.input_steps = ttk.Entry(master = Frame, textvariable=optSteps)
         self.button_GFS = ttk.Button(master = Frame, text= "State", command=partial(self.Command_state, address))
         self.button_mov = ttk.Button(master = Frame, text= "Move", command = partial(self.Command_move, address))
         self.button_stop = ttk.Button(master = Frame, text= "Stop", command = partial(self.Command_stop, address))
 
-        self.label_addr.place(x = 5 , y = 10, height= 30, width=110)
-        self.entry_position.place(x = 125, y = 10, height=30, width=120)
-        self.label_steps.place(x = 5, y = 50, height= 30, width=110)
-        self.input_steps.place(x = 125, y = 50, width = 120, height= 30)
-        self.check_dir.place(x = 5, y = 90, height=30, width=240)
-        self.button_GFS.place(x = 5, y = 130, width = 80, height = 30)
-        self.button_mov.place(x = 85, y = 130, width= 80, height= 30)
-        self.button_stop.place(x = 165, y = 130, width= 80, height= 30)
+        self.label_addr.place(x = 5 , y = 10, height= 40, width=110)
+        self.entry_position.place(x = 125, y = 10, height=40, width=120)
+        self.label_steps.place(x = 5, y = 60, height= 40, width=110)
+        self.input_steps.place(x = 125, y = 60, height= 40,width = 120)
+        self.button_GFS.place(x = 5, y = 110,  height = 40, width = 80)
+        self.button_mov.place(x = 85, y = 110, height = 40, width = 80)
+        self.button_stop.place(x = 165, y = 110, height = 40, width = 80)
 
     def create_XYZ_Motion_Control_Window(self, Frame):
         self.config_frame =ttk.Frame(Frame, width=250, height=200, relief="groove")
@@ -218,6 +214,11 @@ class View:
     def set_controller(self, controller):
         self.controller = controller
 
+    def click_reset(self):
+        if self.controller:
+            self.controller.reset_position()    
+
+
     def click_enter(self, event):
         if self.controller:
             self.controller.commanding(self.command_var.get())
@@ -247,22 +248,8 @@ class View:
             self.controller.commanding("GFS "+str(address))
     
     def Command_move(self, address):
-        optDir_list = [self.optDir.get(), self.optDir_2.get(), self.optDir_3.get()]
-        optSteps_list = [self.optSteps.get(), self.optSteps_2.get(), self.optSteps_3.get()]
-
-        optDir = optDir_list[address-1]
-        optSteps = optSteps_list[address-1]
-
-        command = "MOV %i %s %s %s %s %s %s %s " % (address, optDir, self.optFreq.get(), self.optRss.get(), optSteps, self.optTemp.get(), self.stage, self.optDf.get())
-        
         if self.controller:
-            if optDir == "1":
-                steps = float(optSteps)*float(self.optRss.get())/100
-
-            else:
-                steps = - float(optSteps)*float(self.optRss.get())/100
-            
-            self.controller.Moving(address, command, steps)
+            self.controller.commanding_move(address)
     
     def Command_stop(self, address):
         if self.controller:
@@ -270,7 +257,7 @@ class View:
 
     def Command_XYZ_move(self):
         if self.controller:
-            self.controller.move_xyz()
+            self.controller.commanding_move_xyz()
 
 
 
