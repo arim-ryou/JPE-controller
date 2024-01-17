@@ -1,7 +1,3 @@
-import tkinter as tk
-import tkinter.ttk as ttk
-
-
 class Controller:
     def __init__(self, model, view):
         self.view = view
@@ -43,13 +39,49 @@ class Controller:
                 self.view.show_error(error)
 
     def Position_update(self, address, steps):
+        max_step  = 10
+        min_step = -10
+
         if address == 1:
-            self.view.optPos.set(self.view.optPos.get() + steps)
+            pos = self.view.optPos.get()+ steps
+            if pos >= max_step:
+                self.view.optPos.set(max_step)
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                self.view.show_massage(message)
+            elif pos <= min_step:
+                self.view.optPos.set(min_step)
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                self.view.show_massage(message)       
+            else:
+                self.view.optPos.set(pos)
+
         elif address == 2:
-            self.view.optPos_2.set(self.view.optPos_2.get() + steps)
+            pos = self.view.optPos_2.get()+ steps
+
+            if pos >= max_step:
+                self.view.optPos_2.set(max_step)
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                self.view.show_massage(message)
+            elif pos <= min_step:
+                self.view.optPos_2.set(min_step)
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                self.view.show_massage(message)       
+            else:
+                self.view.optPos_2.set(pos)
         else:
-            self.view.optPos_3.set(self.view.optPos_3.get() + steps)
-    
+            pos = self.view.optPos_3.get()+ steps
+            
+            if pos >= max_step:
+                self.view.optPos_3.set(max_step)
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                self.view.show_massage(message)
+            elif pos <= min_step:
+                self.view.optPos_3.set(min_step)
+                message  =  "[Address %d]가 이동할 수 있는 Step 수를 넘어갔습니다."
+                self.view.show_massage(message)       
+            else:
+                self.view.optPos_3.set(pos)
+
     def commanding_move_xyz(self):
         R = self.view.optRd.get() ; H = self.view.optHt.get() 
         xyz_steps = [self.view.optXstep.get(), self.view.optYstep.get(), self.view.optZstep.get()]
@@ -62,10 +94,14 @@ class Controller:
             Addr += 1
 
     def reset_position(self):
+        command_message = '<<< 위치를 초기화 합니다. \n' 
+        self.view.show_command(command_message)
+
         pos = [self.view.optPos.get(), self.view.optPos_2.get(), self.view.optPos_3.get()]
 
         try:
             self.model.reset_position(self.view.optFreq.get(), self.view.optTemp.get(), self.view.stage, self.view.optDf.get(), pos)
-
+            self.view.optPos.set(0); self.view.optPos_2.set(0); self.view.optPos_3.set(0)
+            
         except ValueError as error:
             self.view.show_error(error)

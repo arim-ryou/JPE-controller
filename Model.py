@@ -47,7 +47,7 @@ class Model:
     
     def reset_position(self, Freq, Temp, stage, Df, pos):
         init_step = 10
-        move_steps = -(round(init_step + pos)+1)
+        move_steps = -(np.round(np.array(init_step)+ pos)+1)
 
         address = 1
 

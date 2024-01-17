@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+import tkinter.messagebox as msgbox
 
 from functools import partial
 
@@ -230,6 +231,9 @@ class View:
 
     def txtResp_clear_click(self):
         self.respond_text.delete("1.0", "end")
+
+    def show_massage(self, message):
+        msgbox.showinfo("알림", message)
 
     def show_command(self, message):
         self.respond_text.tag_configure("Command", foreground="black")
