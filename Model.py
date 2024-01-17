@@ -2,6 +2,7 @@ from CpscInterfaces import CpscSerialInterface as CpscSerial
 import numpy as np
 import math
 import time
+import csv
 
 class Model:
     def __init__(self):
@@ -14,12 +15,12 @@ class Model:
                 response = serial_port.WriteRead(command, 1)
                 response_result = '>>> '+response+"\n"
                 if response == "":
-                    raise ValueError(f">>> Serial port에 연결할 수 없습니다.\n")
+                    raise ValueError()
                 else:
                     return(response_result)
 
         except IOError:
-            raise ValueError(f">>> Serial port에 연결할 수 없습니다.\n")
+            raise ValueError()
         
     def calculation_z(self, R, H, xyz_steps):
         xyz_steps = np.array(xyz_steps).T
@@ -58,4 +59,9 @@ class Model:
             self.moving(address, Freq, init_step, Temp, stage, Df)
 
             address += 1
+    
+    def save_pos(self, pos):
+        writer = csv.writer(open('position.csv', 'w', newline = ''))
+        writer.writerow(pos)
+
 

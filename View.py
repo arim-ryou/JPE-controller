@@ -1,15 +1,18 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as msgbox
+import csv
 
 from functools import partial
 
 class View:
-    def __init__(self, window):
+    def __init__(self, window, pos):
         self.window = window
         self.window.title("JPE cryogenic controller")
         self.window.geometry("759x660")
         self.window.resizable(False, False)
+    
+        self.window.protocol("WM_DELETE_WINDOW", self.Save_position_message)
 
         self.stage = "CLA2601" 
         self.optCom = tk.StringVar() ; self.optCom.set('1')
@@ -20,11 +23,11 @@ class View:
         self.optDf = tk.StringVar() ; self.optDf.set('1.0')
 
         self.optPos = tk.DoubleVar(); self.optSteps = tk.DoubleVar()
-        self.optPos.set('0')  ; self.optSteps.set("0")
+        self.optPos.set(pos[0])  ; self.optSteps.set("0")
         self.optPos_2 = tk.DoubleVar(); self.optSteps_2 = tk.DoubleVar() 
-        self.optPos_2.set('0') ; self.optSteps_2.set("0")
+        self.optPos_2.set(pos[1]) ; self.optSteps_2.set("0")
         self.optPos_3 = tk.DoubleVar(); self.optSteps_3 = tk.DoubleVar()
-        self.optPos_3.set('0') ; self.optSteps_3.set("0")
+        self.optPos_3.set(pos[2]) ; self.optSteps_3.set("0")
 
         self.optXstep = tk.DoubleVar(); self.optYstep = tk.DoubleVar(); self.optZstep =tk.DoubleVar()
         self.optXstep.set('0'); self.optYstep.set('0') ;  self.optZstep.set('0')
@@ -263,6 +266,14 @@ class View:
         if self.controller:
             self.controller.commanding_move_xyz()
 
+    def Save_position_message(self):
+        MsgBox = msgbox.askquestion("Save position", "각 Address의 위치를 저장하겠습니까?")
+        if MsgBox == "yes":
+            if self.controller:
+                self.controller.save_position()
+        else:
+            pass
+        self.window.destroy()
 
 
 

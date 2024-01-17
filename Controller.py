@@ -10,8 +10,8 @@ class Controller:
             respond = self.model.commanding(command)
             self.view.show_respond(respond)
         
-        except ValueError as error:
-            error = "port 설정을 확인해 주세요. \n"
+        except ValueError:
+            error = ">>> Serial port에 연결할 수 없습니다.\n"
             self.view.show_error(error)
 
     def setting_port(self, optCom, optBr):
@@ -36,8 +36,8 @@ class Controller:
                 self.view.show_respond(">>> [Address %d]을 %s 만큼 움직였습니다. \n " %(address,  str(round(Steps,2))))
                 self.Position_update(address, Steps)
 
-            except ValueError as error:
-                error = "port 설정을 확인해 주세요. \n"
+            except ValueError:
+                error = ">>> Serial port에 연결할 수 없습니다.\n"
                 self.view.show_error(error)
 
     def Position_update(self, address, steps):
@@ -107,6 +107,10 @@ class Controller:
             respond_message = '>>> 초기화를 완료했습니다.\n' 
             self.view.show_respond(respond_message)
             
-        except ValueError as error:
-            error = "port 설정을 확인해 주세요. \n"
+        except ValueError:
+            error = ">>> Serial port에 연결할 수 없습니다.\n"
             self.view.show_error(error)
+    
+    def save_position(self):
+        pos = [self.view.optPos.get(), self.view.optPos_2.get(), self.view.optPos_3.get()]
+        self.model.save_pos(pos)
